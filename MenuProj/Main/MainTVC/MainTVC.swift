@@ -8,7 +8,11 @@
 import UIKit
 
 class MainTVC: UITableViewCell {
-
+    
+    static let reuseId = "MainCell"
+    
+    @IBOutlet weak var TextLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -18,6 +22,12 @@ class MainTVC: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func set(text: String) {
+        
+        TextLabel.text = text
+        
     }
     
 }
