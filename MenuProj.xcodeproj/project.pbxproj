@@ -19,6 +19,8 @@
 		5DFB4559295A0B6C00FC9EA7 /* MainTVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DFB4557295A0B6C00FC9EA7 /* MainTVC.xib */; };
 		5DFB455C295B1CDD00FC9EA7 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFB455B295B1CDD00FC9EA7 /* Category.swift */; };
 		5DFB455E295C8B0200FC9EA7 /* СharacterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFB455D295C8B0200FC9EA7 /* СharacterModel.swift */; };
+		5DFB4562296DCB4000FC9EA7 /* DetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFB4560296DCB4000FC9EA7 /* DetailsVC.swift */; };
+		5DFB4563296DCB4000FC9EA7 /* DetailsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DFB4561296DCB4000FC9EA7 /* DetailsVC.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		5DFB4557295A0B6C00FC9EA7 /* MainTVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainTVC.xib; sourceTree = "<group>"; };
 		5DFB455B295B1CDD00FC9EA7 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		5DFB455D295C8B0200FC9EA7 /* СharacterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "СharacterModel.swift"; sourceTree = "<group>"; };
+		5DFB4560296DCB4000FC9EA7 /* DetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsVC.swift; sourceTree = "<group>"; };
+		5DFB4561296DCB4000FC9EA7 /* DetailsVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailsVC.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				5DFB455A295B1C6A00FC9EA7 /* Model */,
+				5DFB455F296DCAF500FC9EA7 /* DetailsVC */,
 				5DFB454F295A02D700FC9EA7 /* Main */,
 				5DFB454E295A022200FC9EA7 /* Supporting Files */,
 			);
@@ -123,6 +128,15 @@
 				5DFB455D295C8B0200FC9EA7 /* СharacterModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		5DFB455F296DCAF500FC9EA7 /* DetailsVC */ = {
+			isa = PBXGroup;
+			children = (
+				5DFB4560296DCB4000FC9EA7 /* DetailsVC.swift */,
+				5DFB4561296DCB4000FC9EA7 /* DetailsVC.xib */,
+			);
+			path = DetailsVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,6 +202,7 @@
 				5DFB4554295A069C00FC9EA7 /* MainCVC.xib in Resources */,
 				5DFB4544295A01F300FC9EA7 /* Assets.xcassets in Resources */,
 				5DFB4542295A01F200FC9EA7 /* Main.storyboard in Resources */,
+				5DFB4563296DCB4000FC9EA7 /* DetailsVC.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,6 +214,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DFB4558295A0B6C00FC9EA7 /* MainTVC.swift in Sources */,
+				5DFB4562296DCB4000FC9EA7 /* DetailsVC.swift in Sources */,
 				5DFB455E295C8B0200FC9EA7 /* СharacterModel.swift in Sources */,
 				5DFB453F295A01F200FC9EA7 /* MainVC.swift in Sources */,
 				5DFB4553295A069C00FC9EA7 /* MainCVC.swift in Sources */,

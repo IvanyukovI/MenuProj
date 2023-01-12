@@ -8,27 +8,15 @@
 import UIKit
 
 class MainVC: UIViewController {
-    
-    let emojiRanges = [
-        
-        0x1F600...0x1F64F, // Emoticons
-        8400...8447,// Combining Diacritical Marks for Symbols
-        9100...9300, // Misc items
-        0x2600...0x26FF,   // Misc symbols
-        0x2700...0x27BF,   // Dingbats
-        0x1F018...0x1F270, // Various asian characters
-        0x1F300...0x1F5FF, // Misc Symbols and Pictographs
-        0x1F680...0x1F6FF, // Transport and Map
-        0x1F1E6...0x1F1FF, // Regional country flags
-        0x1F900...0x1F9FF,  // Supplemental Symbols and Pictographs
-        ]
 
     @IBOutlet weak var CategoryCV: UICollectionView!
     @IBOutlet weak var resultTV: UITableView!
     
+    var symbolArray = Сharacter()
+    var allSymbol: [String] = []
     var category = Category.allCases
     var selectCategory: [Category] = [.all]
-    var emojiArray: [Unicode.Scalar] = []
+    var filt: Set<String> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,18 +28,9 @@ class MainVC: UIViewController {
         resultTV.delegate = self
         resultTV.dataSource = self
         CategoryCV.allowsMultipleSelection = true
-        getEmoji()
+        symbolArray.getAll()
+        allSymbol = symbolArray.allCategory
     }
-    
-    func getEmoji() {
-        for range in emojiRanges {
-            for i in range {
-                emojiArray.append(UnicodeScalar(i)!)
-            }
-        }
-    }
-
-       
 
 
 }
@@ -84,35 +63,80 @@ extension MainVC:  UICollectionViewDelegate {
             selectCategory.removeAll()
             selectCategory.append(.all)
             CategoryCV.reloadData()
+//            allSymbol.removeAll()
+            sortArray(selectCategory: selectCategory)
+            resultTV.reloadData()
             return
         case .words, .numbers, .emoji :
             if selectCategory.contains(cellData) {
                 selectCategory = selectCategory.filter(){$0 != .all}
                 selectCategory = selectCategory.filter(){$0 != cellData}
                 CategoryCV.reloadData()
+//                allSymbol.removeAll()
+                sortArray(selectCategory: selectCategory)
+                resultTV.reloadData()
             } else {
                 selectCategory.append(cellData)
                 selectCategory = selectCategory.filter(){$0 != .all}
                 CategoryCV.reloadData()
+//                allSymbol.removeAll()
+                sortArray(selectCategory: selectCategory)
+                resultTV.reloadData()
+            }
+            if selectCategory.isEmpty {
+                selectCategory.removeAll()
+                selectCategory.append(.all)
+                CategoryCV.reloadData()
+//                allSymbol.removeAll()
+                sortArray(selectCategory: selectCategory)
+                resultTV.reloadData()
             }
             return
         }
-        
-        
     }
     
+    func sortArray (selectCategory: [Category]) {
+       
+//        allSymbol = symbolArray.allCategory
+        
+        
+        for categ in selectCategory {
+                switch categ {
+                case .all :
+                    allSymbol = symbolArray.allCategory
+                    return
+                case .words :
+                    filt = Set(symbolArray.words)
+                    //                allSymbol = symbolArray.allCategory.filter{ filt.contains($0)}
+                    allSymbol = allSymbol.filter{ filt.contains($0)}
+                    return
+                case .emoji :
+                    filt = Set(symbolArray.emojiArray)
+                    //                allSymbol.append(contentsOf: symbolArray.allCategory.filter{ filt.contains($0)})
+                    //                allSymbol = symbolArray.allCategory.filter{ filt.contains($0)}
+                    allSymbol = allSymbol.filter{ filt.contains($0)}
+                    return
+                case .numbers :
+                    filt = Set(symbolArray.numbArray)
+                    //                allSymbol.append(contentsOf: symbolArray.allCategory.filter{ filt.contains($0)})
+                    //                allSymbol = symbolArray.allCategory.filter{ filt.contains($0)}
+                    allSymbol = allSymbol.filter{ filt.contains($0)}
+                    return
+                }
+        }
+    }
 }
 
 extension MainVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return emojiArray.count
+        return allSymbol.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTVC.reuseId , for: indexPath) as? MainTVC else { return UITableViewCell() }
-        let cellData = emojiArray[indexPath.row]
+        let cellData = allSymbol[indexPath.row]
         cell.set(text: String(cellData))
         return cell
     }
@@ -120,17 +144,33 @@ extension MainVC: UITableViewDataSource {
 
 extension MainVC: UITableViewDelegate {
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let commandVC = CommandVC()
-//        commandVC.command = BaseCommand.shared.commands[indexPath.row]
-//        commandVC.completion = {[unowned self] command in
-//            if command == true {
-//            self.dataFilling()
-//            self.tableView.reloadData()
-//            }
-//        }
-//        navigationItem.backBarButtonItem = UIBarButtonItem(
-//            title: "Команды", style: .plain, target: nil, action: nil)
-//        show(commandVC, sender: nil)
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cellData = allSymbol[indexPath.row]
+        let detailsVC = DetailsVC()
+        detailsVC.symbol = cellData
+        navigationItem.backBarButtonItem = UIBarButtonItem(
+            title: "Назад", style: .done, target: nil, action: nil)
+        show(detailsVC, sender: nil)
+        
+    }
+    
+   
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .normal, title: "") { action, view, completionHandler in
+            let filterId = self.allSymbol.filter{$0 != self.allSymbol[indexPath.row]}
+            self.allSymbol.removeAll()
+            for filterId in filterId {
+                self.allSymbol.append(filterId)
+            }
+            tableView.reloadData()
+            completionHandler(true)
+        }
+        
+        delete.image = UIImage(systemName: "multiply.circle.fill")?.withTintColor(.red, renderingMode: .alwaysOriginal)
+        delete.backgroundColor = .systemBackground
+        
+        let swipe = UISwipeActionsConfiguration(actions: [delete])
+        return swipe
+    }
 }
