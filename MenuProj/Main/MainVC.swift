@@ -94,24 +94,37 @@ extension MainVC:  UICollectionViewDelegate {
     func sortArray (selectCategory: [Category]) {
         
         for categ in selectCategory {
+            if selectCategory.count == 1{
                 switch categ {
                 case .all :
                     allSymbol = symbolArray.allCategory
-                    return
                 case .words :
                     filt = Set(symbolArray.words)
                     allSymbol = allSymbol.filter{ filt.contains($0)}
-                    return
                 case .emoji :
                     filt = Set(symbolArray.emojiArray)
                     allSymbol = allSymbol.filter{ filt.contains($0)}
-                    return
                 case .numbers :
                     filt = Set(symbolArray.numbArray)
                     allSymbol = allSymbol.filter{ filt.contains($0)}
-                    return
                 }
+            } else {
+                switch categ {
+                case .all :
+                    allSymbol = symbolArray.allCategory
+                case .words :
+                    filt = Set(symbolArray.words)
+                    allSymbol.append(contentsOf: symbolArray.allCategory.filter{ filt.contains($0)})
+                case .emoji :
+                    filt = Set(symbolArray.emojiArray)
+                    allSymbol.append(contentsOf: symbolArray.allCategory.filter{ filt.contains($0)})
+                case .numbers :
+                    filt = Set(symbolArray.numbArray)
+                    allSymbol.append(contentsOf: symbolArray.allCategory.filter{ filt.contains($0)})
+                }
+            }
         }
+        allSymbol = allSymbol.uniqued()
     }
 }
 
@@ -160,5 +173,12 @@ extension MainVC: UITableViewDelegate {
         
         let swipe = UISwipeActionsConfiguration(actions: [delete])
         return swipe
+    }
+}
+
+extension Sequence where Element: Hashable {
+    func uniqued() -> [Element] {
+        var set = Set<Element>()
+        return filter { set.insert($0).inserted }
     }
 }
