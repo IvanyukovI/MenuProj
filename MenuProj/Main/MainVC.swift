@@ -63,7 +63,6 @@ extension MainVC:  UICollectionViewDelegate {
             selectCategory.removeAll()
             selectCategory.append(.all)
             CategoryCV.reloadData()
-//            allSymbol.removeAll()
             sortArray(selectCategory: selectCategory)
             resultTV.reloadData()
             return
@@ -72,14 +71,12 @@ extension MainVC:  UICollectionViewDelegate {
                 selectCategory = selectCategory.filter(){$0 != .all}
                 selectCategory = selectCategory.filter(){$0 != cellData}
                 CategoryCV.reloadData()
-//                allSymbol.removeAll()
                 sortArray(selectCategory: selectCategory)
                 resultTV.reloadData()
             } else {
                 selectCategory.append(cellData)
                 selectCategory = selectCategory.filter(){$0 != .all}
                 CategoryCV.reloadData()
-//                allSymbol.removeAll()
                 sortArray(selectCategory: selectCategory)
                 resultTV.reloadData()
             }
@@ -87,7 +84,6 @@ extension MainVC:  UICollectionViewDelegate {
                 selectCategory.removeAll()
                 selectCategory.append(.all)
                 CategoryCV.reloadData()
-//                allSymbol.removeAll()
                 sortArray(selectCategory: selectCategory)
                 resultTV.reloadData()
             }
@@ -96,9 +92,6 @@ extension MainVC:  UICollectionViewDelegate {
     }
     
     func sortArray (selectCategory: [Category]) {
-       
-//        allSymbol = symbolArray.allCategory
-        
         
         for categ in selectCategory {
                 switch categ {
@@ -107,19 +100,14 @@ extension MainVC:  UICollectionViewDelegate {
                     return
                 case .words :
                     filt = Set(symbolArray.words)
-                    //                allSymbol = symbolArray.allCategory.filter{ filt.contains($0)}
                     allSymbol = allSymbol.filter{ filt.contains($0)}
                     return
                 case .emoji :
                     filt = Set(symbolArray.emojiArray)
-                    //                allSymbol.append(contentsOf: symbolArray.allCategory.filter{ filt.contains($0)})
-                    //                allSymbol = symbolArray.allCategory.filter{ filt.contains($0)}
                     allSymbol = allSymbol.filter{ filt.contains($0)}
                     return
                 case .numbers :
                     filt = Set(symbolArray.numbArray)
-                    //                allSymbol.append(contentsOf: symbolArray.allCategory.filter{ filt.contains($0)})
-                    //                allSymbol = symbolArray.allCategory.filter{ filt.contains($0)}
                     allSymbol = allSymbol.filter{ filt.contains($0)}
                     return
                 }
